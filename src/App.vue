@@ -1,17 +1,37 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <div>
+      <label>phone</label>
+      <input type="text" v-model="phone"/>
+      <button v-on:click="submit()">Submit</button>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
+import axios from "axios";
+export default  {
   name: 'App',
-  components: {
-    HelloWorld
+  methods: {
+    data() {
+      return {
+        phone: '',
+      }
+    },
+    submit() {
+     let url = "http://localhost:8080/api/bot/phone"
+      axios.post(url, {"text":this.phone},{
+      }).then(response => {
+        console.log(response)
+        setTimeout(this.requestData, 1000)
+      }, response => {
+        // error callback
+        console.log(response.data)
+      })
+    }
   }
 }
+
 </script>
 
 <style>
